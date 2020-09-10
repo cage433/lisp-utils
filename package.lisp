@@ -3,11 +3,11 @@
 (defpackage :cage433-lisp-utils
   (:use :common-lisp)
   (:export :deftest
-           :load-and-compile-if-necessary
            :combine-results
            :===
            :dbind
            :mbind
+           :foldr
            :check
            :with-gensyms
            :for-all
@@ -15,14 +15,13 @@
            :def-rstruct
            :info
            :spec
-           :colored-text
            :aif
            :awhen
+           :until
            :it
            :group-by
            :hash-to-list
            :hash-values
            :cross-product
            :mappend
-           :foo
            ))
