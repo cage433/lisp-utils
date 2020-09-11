@@ -6,8 +6,6 @@
            :acond
            :aif
            :awhen
-           :check
-           :combine-results
            :cross-product
            :dbind
            :def-rstruct

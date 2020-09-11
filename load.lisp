@@ -29,7 +29,6 @@
         (test-compose)
         (test-def-rstruct)
         (test-cross-product)
-        (test===)
         )))
 
 (in-package :common-lisp-user)

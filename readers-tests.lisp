@@ -40,7 +40,7 @@
 
     (spec "labels with lambda"
       (labels ((foo() (lambda (x y) (+ x y))))
-        (check (= 6 ([(foo) 4] 2)))))))
+        (= 6 ([(foo) 4] 2))))))
 
 (defun test-compose()
   (info	"compose read macro"
