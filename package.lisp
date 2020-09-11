@@ -2,26 +2,28 @@
 
 (defpackage :cage433-lisp-utils
   (:use :common-lisp)
-  (:export :deftest
-           :combine-results
-           :===
-           :dbind
-           :mbind
-           :foldr
-           :check
-           :with-gensyms
-           :for-all
-           :take-while
-           :def-rstruct
-           :info
-           :spec
+  (:export :===
+           :acond
            :aif
            :awhen
-           :until
-           :it
+           :check
+           :combine-results
+           :cross-product
+           :dbind
+           :def-rstruct
+           :foldl
+           :foldr
+           :for-all
            :group-by
            :hash-to-list
            :hash-values
-           :cross-product
+           :info
+           :it
            :mappend
+           :mbind
+           :spec
+           :take-while
+           :until
+           :with-gensyms
+           :deftest
            ))
