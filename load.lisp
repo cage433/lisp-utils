@@ -1,21 +1,21 @@
 (load "package.lisp")
 (require :cage433-ci)
+(require :mt19937)
 (in-package :cage433-lisp-utils)
 
 
 (proclaim '(optimize (debug 3)))
 (defun load-and-compile-source()
-  (format t "Loading source ~%")
-    (and
-      (cage433-ci:load-and-compile-if-necessary "package")
-      (cage433-ci:load-and-compile-if-necessary "utils0")
-      (cage433-ci:load-and-compile-if-necessary "unit-testing")
-      (cage433-ci:load-and-compile-if-necessary "utils")
-      (cage433-ci:load-and-compile-if-necessary "utils-tests")
-      (cage433-ci:load-and-compile-if-necessary "readers")
-      (cage433-ci:load-and-compile-if-necessary "readers-tests")
-      (cage433-ci:load-and-compile-if-necessary "anaphors")
-      ))
+  (and
+    (cage433-ci:load-and-compile-if-necessary "package")
+    (cage433-ci:load-and-compile-if-necessary "utils0")
+    (cage433-ci:load-and-compile-if-necessary "unit-testing")
+    (cage433-ci:load-and-compile-if-necessary "utils")
+    (cage433-ci:load-and-compile-if-necessary "utils-tests")
+    (cage433-ci:load-and-compile-if-necessary "readers")
+    (cage433-ci:load-and-compile-if-necessary "readers-tests")
+    (cage433-ci:load-and-compile-if-necessary "anaphors")
+    ))
 
 (defun compile-and-run-tests()
   (declare #+sbcl(sb-ext:muffle-conditions style-warning))

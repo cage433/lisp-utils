@@ -1,5 +1,6 @@
 (in-package :common-lisp-user)
 
+(require :random-state)
 (defpackage :cage433-lisp-utils
   (:use :common-lisp)
   (:export :===
