@@ -1,6 +1,5 @@
 (load "package.lisp")
 (require :cage433-ci)
-(require :mt19937)
 (in-package :cage433-lisp-utils)
 
 

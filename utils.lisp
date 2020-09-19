@@ -40,8 +40,11 @@
 (defun test-span()
   (let ((suite 
           (make-suite "Span function" 
-                           (make-test "Returns nested nil when passed nil as an argument" 
-                                      (equalp '(()) (span #'evenp nil))))))
+                           (spec "Returns nested nil when passed nil as an argument" 
+                                      (equalp '(()) (span #'evenp nil)))
+                           (spec "Works when predicate fails on first element"
+                                      (equalp '(() 1 2 3) (span #'evenp '(1 2 3))))
+                           )))
     (run-tests suite)))
 
 (defun for-all (pred list)
@@ -59,7 +62,7 @@
     (recurse seq nil)))
 
 (defun test-take-while()
-  (info "take-while"
+  (make-suite "take-while"
     (spec "Returns nil when passed an empty list"
       (equalp nil (take-while #'evenp nil)))
     (spec "Returns nil when predicate failes on the first element"

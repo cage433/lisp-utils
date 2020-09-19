@@ -34,22 +34,8 @@
           (format t "    Failing form~%     ~A~%" form)
           nil)))))
 
-(defmacro spec (doc-string &body forms)
-  "Run each expression in 'forms' as a test case."
-  `(run-test ,doc-string 
-    (list ,@(mapcar (lambda (f) `(list ,f ',f)) forms))))
-
-(defmacro info (feature &rest specs)
-  `(progn 
-    (format t "~A~%" (colored-text ,feature :blue))
-    (and ,@specs)))
-;(defun info (feature &rest specs)
-  ;(progn 
-    ;(format t "~A~%" (colored-text feature :blue))
-    ;(and specs)))
-
 (defstruct simple-test name form test)
-(defmacro make-test (name test)
+(defmacro spec (name test)
   `(make-simple-test :name ,name :form ',test :test (lambda () ,test)))
 
 (defun run-simple-test (test &key indent)
@@ -61,7 +47,7 @@
       t))
 
 (defstruct rng-test name form test seed num-runs num-allowed-failures)
-(defmacro make-random-test (name test &key num-runs num-allowed-failures)
+(defmacro random-spec (name test &key num-runs num-allowed-failures)
   `(make-rng-test :name ,name :form ',test :test ,test :num-runs ,num-runs :num-allowed-failures ,num-allowed-failures))
 
 (defun run-random-test (test &key seed (indent ""))
@@ -86,23 +72,24 @@
 
 (defstruct test-suite name tests-or-suites)
 (defun make-suite (name &rest testish)
-  (make-test-suite name testish))
+  (make-test-suite :name name :tests-or-suites testish))
+
 
 (defun run-tests (testish &key (indent ""))
   (cond ((test-suite-p testish)
          (progn 
-           (format t "~A~A~%" indent (test-suite-name testish))
+           (format t "~A~A~%" indent (colored-text (test-suite-name testish) :blue))
            (do ((has-failed nil)
                 (remaining (test-suite-tests-or-suites testish) (cdr remaining)))
-             ((or has-failed (null remaining)))
+             ((or has-failed (null remaining)) (not has-failed))
              (if (not (run-tests (car remaining) :indent (concatenate 'string "  " indent)))
                (setf has-failed t)))))
         ((simple-test-p testish)
-        (progn
-          (format t "~A~A~%" indent (simple-test-name testish))
-          (run-simple-test testish :indent (concatenate 'string "  " indent))))
+          (progn
+            (format t "~A~A~%" indent (colored-text (simple-test-name testish) :green))
+            (run-simple-test testish :indent (concatenate 'string "  " indent))))
         ((rng-test-p testish)
-        (progn
-          (format t "~A~A~%" indent (rng-test-name testish))
-          (run-random-test testish :indent (concatenate 'string "  " indent))))))
+          (progn
+            (format t "~A~A~%" indent (colored-text (rng-test-name testish) :green))
+            (run-random-test testish :indent (concatenate 'string "  " indent))))))
 

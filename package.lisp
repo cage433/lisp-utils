@@ -24,5 +24,7 @@
            :take-while
            :until
            :with-gensyms
-           :deftest
+           :spec
+           :random-spec
+           :make-suite
            ))
