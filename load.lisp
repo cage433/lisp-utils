@@ -10,9 +10,9 @@
     (cage433-ci:load-and-compile-if-necessary "utils0")
     (cage433-ci:load-and-compile-if-necessary "unit-testing")
     (cage433-ci:load-and-compile-if-necessary "utils")
-    (cage433-ci:load-and-compile-if-necessary "utils-tests")
+    (cage433-ci:load-and-compile-if-necessary "tests/utils-tests")
     (cage433-ci:load-and-compile-if-necessary "readers")
-    (cage433-ci:load-and-compile-if-necessary "readers-tests")
+    (cage433-ci:load-and-compile-if-necessary "tests/readers-tests")
     (cage433-ci:load-and-compile-if-necessary "anaphors")
     ))
 
