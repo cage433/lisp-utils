@@ -1,6 +1,6 @@
 (in-package :cage433-lisp-utils)
 
-(defun test-anon-functions()
+(defun anon-functions-suite()
   (info "anon function read macro"
     (spec "Works for sundry calls"
       (= 9 (#_(* _ _) 3))
@@ -15,7 +15,7 @@
         (= 6 (#2_ (funcall _plus _1 _2) 2 4))))))
 
 
-(defun test-curry()
+(defun curry-suite()
   (info "curry read macro"
     (spec "with '+' special form"
       (= 6 ([+ 4] 2)))
@@ -42,7 +42,7 @@
       (labels ((foo() (lambda (x y) (+ x y))))
         (= 6 ([(foo) 4] 2))))))
 
-(defun test-compose()
+(defun compose-suite()
   (info	"compose read macro"
     (spec "With sharp sign"
       (= 6 ( { #'1+ + } 2 3)))
@@ -67,18 +67,26 @@
         (= 6 ( { (foo) + } 2 3))))))
 
 (def-rstruct test-struct x y)
-(defun test-def-rstruct()
+(defun def-rstruct-suite()
   (let ((a (make-test-struct :x 1 :y 2))
         (b (make-test-struct :x 3 :y 4)))
     (info "def-rstruct"
-    (spec "with- macro assigns slot values"
-      (with-test-struct a (= 1 x))
-      (with-test-struct b (= 3 x)))
-    (spec "with-named- macro assigns slot values"
-      (with-named-test-struct a
-        (= 1 a/x)))
-    (spec "with-named- macro can be nested"
-      (with-named-test-struct a
-        (with-named-test-struct b
-              (and (= 1 a/x)
-                   (= 3 b/x))))))))
+      (spec "with- macro assigns slot values"
+        (with-test-struct a (= 1 x))
+        (with-test-struct b (= 3 x)))
+      (spec "with-named- macro assigns slot values"
+        (with-named-test-struct a
+          (= 1 a/x)))
+      (spec "with-named- macro can be nested"
+        (with-named-test-struct a
+          (with-named-test-struct b
+                (and (= 1 a/x)
+                    (= 3 b/x))))))))
+  
+(defun readers-full-suite ()
+  (info "readers tests"
+        (anon-functions-suite)
+        (curry-suite)
+        (compose-suite)
+        (def-rstruct-suite)))
+

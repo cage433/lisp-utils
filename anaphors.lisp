@@ -30,7 +30,3 @@
                       (if ,sym
                             (let ((it ,sym)) ,@(cdr cl1))
                             (acond ,@(cdr clauses)))))))
-
-(defun foo (x) (* x x x))
-(defun bar (x) (+ x x x ))
-(defun baz (x) (- x x x ))

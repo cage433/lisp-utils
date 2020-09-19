@@ -18,17 +18,13 @@
 
 (defun compile-and-run-tests()
   (declare #+sbcl(sb-ext:muffle-conditions style-warning))
-    (if (load-and-compile-source)
-         
-      (and
-        (test-span)
-        (test-take-while)
-        (test-anon-functions)
-        (test-curry)
-        (test-compose)
-        (test-def-rstruct)
-        (test-cross-product)
-        )))
+  (if (load-and-compile-source)
+        
+    (run-tests
+      (info "project tests"
+            (utils-full-suite)
+            (readers-full-suite)))))
+
 
 (in-package :common-lisp-user)
 (defun ci()

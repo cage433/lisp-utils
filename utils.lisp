@@ -37,15 +37,15 @@
     ;(spec "Works when predicate fails in the middle of a list"
       ;(equalp '((1 2 3) 4 5 6) (span (lambda (i) (< i 3.5)) '(1 2 3 4 5 6))))))
 
-(defun test-span()
-  (let ((suite 
-          (make-suite "Span function" 
+
+(defparameter *suite* 
+          (info "Span function" 
                            (spec "Returns nested nil when passed nil as an argument" 
                                       (equalp '(()) (span #'evenp nil)))
                            (spec "Works when predicate fails on first element"
                                       (equalp '(() 1 2 3) (span #'evenp '(1 2 3))))
-                           )))
-    (run-tests suite)))
+                           ))
+
 
 (defun for-all (pred list)
   (cond ((null list) t)
@@ -61,17 +61,6 @@
                   (recurse (cdr seq) (cons (car seq) acc)))))
     (recurse seq nil)))
 
-(defun test-take-while()
-  (make-suite "take-while"
-    (spec "Returns nil when passed an empty list"
-      (equalp nil (take-while #'evenp nil)))
-    (spec "Returns nil when predicate failes on the first element"
-      (equalp nil (take-while #'evenp '(1 2 4 6 8))))
-    (spec "Returns whole list if predicate never fails"
-      (equalp '(1 2 4 6 8) (take-while #'numberp '(1 2 4 6 8))))
-    (spec "Returns a proper sublist at the point predicate fails"
-      (=== '(1 2 3) (take-while (lambda (i) (< i 4)) '(1 2 3 4 0)) 
-              :test #'equal))))
 
 
 (defun concat-syms (&rest syms)

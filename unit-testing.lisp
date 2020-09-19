@@ -21,32 +21,44 @@
           bold
           text #\Esc))
 
-(defun run-test (doc-string test-and-forms)
-  (if (null test-and-forms)
-    (progn 
-      (format t "  ~A~%" (colored-text doc-string :green))
-      t)
-    (destructuring-bind (test form) (car test-and-forms)
-      (if test
-        (run-test doc-string (cdr test-and-forms))
-        (progn 
-          (format t "  ~A~%" (colored-text doc-string :red))
-          (format t "    Failing form~%     ~A~%" form)
-          nil)))))
+;(defun run-test (doc-string test-and-forms)
+  ;(if (null test-and-forms)
+    ;(progn 
+      ;(format t "  ~A~%" (colored-text doc-string :green))
+      ;t)
+    ;(destructuring-bind (test form) (car test-and-forms)
+      ;(if test
+        ;(run-test doc-string (cdr test-and-forms))
+        ;(progn 
+          ;(format t "  ~A~%" (colored-text doc-string :red))
+          ;(format t "    Failing form~%     ~A~%" form)
+          ;nil)))))
 
-(defstruct simple-test name form test)
-(defmacro spec (name test)
-  `(make-simple-test :name ,name :form ',test :test (lambda () ,test)))
+(defstruct test-suite name tests-or-suites)
+(defun info  (name &rest testish)
+  (make-test-suite :name name :tests-or-suites testish))
+(defstruct simple-test name test)
+;(defmacro spec (name &rest tests)
+  ;`(make-simple-test :name ,name :form ',test :test (lambda () ,test)))
+(defmacro spec (doc-string &body forms)
+    "Run each expression in 'forms' as a test case."
+      `(make-test-suite :name ,doc-string
+                     :tests-or-suites 
+                     (list ,@(mapcar (lambda (f) `(cage433-lisp-utils::make-simple-test :name ',f :test (lambda () ,f))) forms))))
+
+
 
 (defun run-simple-test (test &key indent)
   (if (not (funcall (simple-test-test test)))
       (progn
-        (format t "~A~A failed~%" indent (simple-test-name test))
-        (format t "~AForm is ~A~%" indent (simple-test-form test))
+        (format t (colored-text 
+          (format nil "~A~A failed~%" indent (simple-test-name test)) :red))
+        ;(format t "~A~A failed~%" indent (colored-text (simple-test-name test) :red))
         nil)
       t))
 
 (defstruct rng-test name form test seed num-runs num-allowed-failures)
+
 (defmacro random-spec (name test &key num-runs num-allowed-failures)
   `(make-rng-test :name ,name :form ',test :test ,test :num-runs ,num-runs :num-allowed-failures ,num-allowed-failures))
 
@@ -70,9 +82,6 @@
         nil)
       t)))
 
-(defstruct test-suite name tests-or-suites)
-(defun make-suite (name &rest testish)
-  (make-test-suite :name name :tests-or-suites testish))
 
 
 (defun run-tests (testish &key (indent ""))
@@ -86,7 +95,7 @@
                (setf has-failed t)))))
         ((simple-test-p testish)
           (progn
-            (format t "~A~A~%" indent (colored-text (simple-test-name testish) :green))
+            ;(format t "~A~A~%" indent (colored-text (simple-test-name testish) :green))
             (run-simple-test testish :indent (concatenate 'string "  " indent))))
         ((rng-test-p testish)
           (progn
