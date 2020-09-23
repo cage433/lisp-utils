@@ -26,5 +26,5 @@
            :with-gensyms
            :spec
            :random-spec
-           :make-suite
+           :run-tests
            ))
