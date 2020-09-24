@@ -21,25 +21,12 @@
           bold
           text #\Esc))
 
-;(defun run-test (doc-string test-and-forms)
-  ;(if (null test-and-forms)
-    ;(progn 
-      ;(format t "  ~A~%" (colored-text doc-string :green))
-      ;t)
-    ;(destructuring-bind (test form) (car test-and-forms)
-      ;(if test
-        ;(run-test doc-string (cdr test-and-forms))
-        ;(progn 
-          ;(format t "  ~A~%" (colored-text doc-string :red))
-          ;(format t "    Failing form~%     ~A~%" form)
-          ;nil)))))
-
 (defstruct test-suite name tests-or-suites)
-(defun info  (name &rest testish)
+
+(defun info (name &rest testish)
   (make-test-suite :name name :tests-or-suites testish))
+
 (defstruct simple-test name test)
-;(defmacro spec (name &rest tests)
-  ;`(make-simple-test :name ,name :form ',test :test (lambda () ,test)))
 (defmacro spec (doc-string &body forms)
     "Run each expression in 'forms' as a test case."
       `(make-test-suite :name ,doc-string
@@ -53,7 +40,6 @@
       (progn
         (format t (colored-text 
           (format nil "~A~A failed~%" indent (simple-test-name test)) :red))
-        ;(format t "~A~A failed~%" indent (colored-text (simple-test-name test) :red))
         nil)
       t))
 
@@ -76,9 +62,12 @@
           ))
     (if (> (length failing-seeds) num-allowed-failures)
       (progn
-        (format t "~A~A failed~%" indent (rng-test-name test))
-        (format t "~AForm is ~A~%" indent (rng-test-form test))
-        (format t "~AFailing seed(s) ~A~%" indent (reverse failing-seeds))
+        (format t 
+                (colored-text 
+                  (format nil "~A  Failed with seed(s) ~A~%" 
+                          indent (reverse failing-seeds))
+                  :red)
+                )
         nil)
       t)))
 
@@ -99,6 +88,6 @@
             (run-simple-test testish :indent (concatenate 'string "  " indent))))
         ((rng-test-p testish)
           (progn
-            (format t "~A~A~%" indent (colored-text (rng-test-name testish) :green))
+            (format t "~A~A~%" indent (colored-text (rng-test-name testish) :blue))
             (run-random-test testish :indent (concatenate 'string "  " indent))))))
 
