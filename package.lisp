@@ -1,6 +1,7 @@
 (in-package :common-lisp-user)
 
 (require :random-state)
+(require :array-operations)
 (defpackage :cage433-lisp-utils
   (:use :common-lisp)
   (:export :===
@@ -20,11 +21,13 @@
            :it
            :mappend
            :mbind
+           :random-spec
+           :range
+           :run-tests
+           :shuffle-vector
+           :spec
            :spec
            :take-while
            :until
            :with-gensyms
-           :spec
-           :random-spec
-           :run-tests
            ))

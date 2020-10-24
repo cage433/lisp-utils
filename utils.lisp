@@ -26,25 +26,11 @@
 								(cons (reverse trues) rest))))
 		(rec '() xs)))
 
-;(defun test-span()
-  ;(info "Span function"
-    ;(spec "Returns nested nil when passed nil as an argument"
-      ;(equalp '(()) (span #'evenp nil)))
-    ;(spec "Works when predicate fails on first element"
-      ;(equalp '(() 1 2 3) (span #'evenp '(1 2 3))))
-    ;(spec "Works when predicate never fails"
-      ;(equalp '((1 2 3)) (span #'numberp '(1 2 3))))
-    ;(spec "Works when predicate fails in the middle of a list"
-      ;(equalp '((1 2 3) 4 5 6) (span (lambda (i) (< i 3.5)) '(1 2 3 4 5 6))))))
-
-
-(defparameter *suite* 
-          (info "Span function" 
-                           (spec "Returns nested nil when passed nil as an argument" 
-                                      (equalp '(()) (span #'evenp nil)))
-                           (spec "Works when predicate fails on first element"
-                                      (equalp '(() 1 2 3) (span #'evenp '(1 2 3))))
-                           ))
+(defun range (from to)
+  "Returns the range of integers [from, to)"
+  (do ((acc nil (cons i acc))
+       (i from (incf i)))
+      ((>= i to) (reverse acc))))
 
 
 (defun for-all (pred list)

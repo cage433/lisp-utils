@@ -2,7 +2,6 @@
 (require :cage433-ci)
 (in-package :cage433-lisp-utils)
 
-
 (proclaim '(optimize (debug 3)))
 (defun load-and-compile-source()
   (and
@@ -10,7 +9,9 @@
     (cage433-ci:load-and-compile-if-necessary "utils0")
     (cage433-ci:load-and-compile-if-necessary "unit-testing")
     (cage433-ci:load-and-compile-if-necessary "utils")
+    (cage433-ci:load-and-compile-if-necessary "random-utils")
     (cage433-ci:load-and-compile-if-necessary "tests/utils-tests")
+    (cage433-ci:load-and-compile-if-necessary "tests/random-utils-tests")
     (cage433-ci:load-and-compile-if-necessary "readers")
     (cage433-ci:load-and-compile-if-necessary "tests/readers-tests")
     (cage433-ci:load-and-compile-if-necessary "anaphors")
@@ -23,6 +24,7 @@
     (run-tests
       (info "project tests"
             (utils-full-suite)
+            (random-utils-suite)
             (readers-full-suite)))))
 
 

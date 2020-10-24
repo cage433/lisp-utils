@@ -44,8 +44,16 @@
                     )
           )
 
+(defun range-test-suite ()
+  (info "Range"
+        (spec "from 1 until 3"
+              (equalp '(1 2) (range 1 3)))
+        (spec "from 1 until 1"
+              (equalp nil (range 1 1)))))
+
 (defun utils-full-suite ()
   (info "utils tests"
         *cross-product-suite*
         *take-while-suite*
-        *span-suite*))
+        *span-suite*
+        (range-test-suite)))

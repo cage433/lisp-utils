@@ -45,7 +45,7 @@
 
 (defstruct rng-test name form test seed num-runs num-allowed-failures)
 
-(defmacro random-spec (name test &key num-runs num-allowed-failures)
+(defmacro random-spec (name test &key (num-runs 1) (num-allowed-failures 0 ))
   `(make-rng-test :name ,name :form ',test :test ,test :num-runs ,num-runs :num-allowed-failures ,num-allowed-failures))
 
 (defun run-random-test (test &key seed (indent ""))
@@ -84,7 +84,6 @@
                (setf has-failed t)))))
         ((simple-test-p testish)
           (progn
-            ;(format t "~A~A~%" indent (colored-text (simple-test-name testish) :green))
             (run-simple-test testish :indent (concatenate 'string "  " indent))))
         ((rng-test-p testish)
           (progn
