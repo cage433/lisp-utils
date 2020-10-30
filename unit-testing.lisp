@@ -54,7 +54,7 @@
          (failing-seeds '()))
     (do ((i 0 (incf i)))
         ((or (>= i num-runs) (> (length failing-seeds) num-allowed-failures)))
-        (let* ((seed (or seed (random 10000000)))
+        (let* ((seed (or seed (random 10000000 (make-random-state t))))
               (rng (sb-ext:seed-random-state seed))
               (test-result (funcall (rng-test-test test) rng)))
           (if (not test-result)
