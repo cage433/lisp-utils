@@ -62,6 +62,25 @@
       `(with-slots ,(mapcar (lambda (s) (list (concat-syms thing-name '/ s) s)) ',its-slots) ,thing-name
         ,@body))))
 
+(defmacro with-time (name &body body)
+  (with-gensyms (start-time end-time)
+    `(let* (
+           (,start-time (local-time:now))
+           (result (progn ,@body))
+           (,end-time (local-time:now))
+           (whole-seconds-diff (- (local-time:timestamp-to-unix ,end-time)
+                                  (local-time:timestamp-to-unix ,start-time)))
+           (whole-micro-diff (- (local-time:timestamp-microsecond ,end-time)
+                                (local-time:timestamp-microsecond ,start-time)))
+           (diff (+ whole-seconds-diff (/ whole-micro-diff 1000000.0)))
+           )
+       (progn 
+         (format t "~A took ~A seconds~%" ,name diff)
+         result)
+       )
+    )
+  )
+
 (defun group-by (fn xs) 
   (let ((groups (make-hash-table :test #'eql)))
     (mapc 

@@ -1,16 +1,18 @@
 (in-package :cage433-lisp-utils)
 
-(defun random-choice (rng things)
-    (let ((n (random-state:random-int rng 0 (1- (length things)))))
+(defun random-choice (random-state things)
+    (let ((n (random (1- (length things)) random-state)))
           (if (vectorp things)
                       (aref things n)
                       (nth n things))))
 
 
-(defun shuffle-vector (rng vec)
+(defun shuffle-vector (random-state vec)
   (let ((n (length vec)))
     (dotimes (i n)
-      (let ((index (random-state:random-int rng i (1- n))))
+      (let ((index 
+              (+ i (random (- n i) random-state))
+              ))
         (unless (= i index)
           (rotatef (svref vec i) (svref vec index)))))
     vec))

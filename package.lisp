@@ -1,7 +1,7 @@
 (in-package :common-lisp-user)
 
-(require :random-state)
 (require :array-operations)
+(require :local-time)
 (defpackage :cage433-lisp-utils
   (:use :common-lisp)
   (:export :===
@@ -30,4 +30,5 @@
            :take-while
            :until
            :with-gensyms
+           :with-time
            ))
