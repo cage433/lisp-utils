@@ -24,6 +24,7 @@
            :random-spec
            :range
            :run-tests
+           :run-random-test
            :shuffle-vector
            :spec
            :spec
